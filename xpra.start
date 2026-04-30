@@ -1,0 +1,46 @@
+xpra start :10 \
+  --bind-tcp=0.0.0.0:9000 \
+  --html=on \
+  --tcp-auth=allow \
+  --daemon=no \
+  --socket-dir=/tmp/xpra \
+  --log-dir=/tmp \
+  --encoding=auto \
+  --min-speed=80 \
+  --min-quality=55 \
+  --video-encoders=none \
+  --csc-modules=none \
+  --dpi=96 \
+  --resize-display=yes \
+  --sync-xvfb=0 \
+  --speaker=no \
+  --microphone=no \
+  --notifications=no \
+  --bell=no \
+  --webcam=no \
+  --printing=no \
+  --mdns=no \
+  --system-tray=no \
+  --sharing=no \
+  --start-child="idea.sh" \
+  --exit-with-children
+
+
+*********************
+Pourquoi chaque choix
+--video-encoders=none --csc-modules=none → Le HTML5 client tombe de toute façon sur picture encoding (webp/jpeg) sans GPU et sans HTTPS+WebCodecs. Charger les video encoders gaspille l'init CPU et peut causer des retries d'encodage. Picture-only est plus rapide et fiable dans ton cas.
+--min-speed=80 → Priorité latence sur qualité. Xpra va préférer des encodages rapides (jpeg, rgb) sur des zones qui bougent (curseur IDE, autocompletion) et webp pour les zones statiques (éditeur de code).
+--socket-dir=/tmp/xpra --log-dir=/tmp --sessions-dir=/tmp/xpra → Avec 5 IOPS, une seule écriture de log sur le PVC peut bloquer 200ms. Tout doit aller dans /tmp (ramfs/tmpfs dans le pod).
+--no-daemon → Pas de fork, pas d'écriture de PID file, plus simple à superviser dans un pod.
+--sync-xvfb=0 → Désactive le re-paint du virtual display (inutile en seamless, économise CPU).
+--tcp-auth=none → À adapter si ton pod est exposé ; dans un pod isolé derrière un ingress ça évite une roundtrip auth à chaque reconnexion HTML5.
+
+Bonus IDEA dans ce setup
+Pour que IntelliJ se comporte bien dans un Xvfb sans GPU, ajoute dans idea64.vmoptions :
+-Dsun.java2d.opengl=false
+-Dsun.java2d.xrender=false
+-Dawt.useSystemAAFontSettings=lcd
+Et si les indexes JetBrains sont sur le PVC (ils le sont par défaut), déplace-les vers /tmp/idea-system via idea.properties :
+propertiesidea.system.path=/tmp/idea-system
+idea.log.path=/tmp/idea-logs
+Les indexes sur 5 IOPS = IDE quasi inutilisable au démarrage. C'est probablement ta plus grosse source de latence, pas xpra
