@@ -1,0 +1,284 @@
+
+<h2 class="sr-only">Répartition des 75 000 BobCoins et 150 seats par phase SDLC — IBM Bob POC BNP Paribas</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.tabs{display:flex;gap:3px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:14px}
+.tab{font-size:12px;padding:6px 11px;border-radius:6px 6px 0 0;cursor:pointer;color:var(--color-text-secondary);border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.active{color:var(--color-text-primary);border-bottom:2px solid #534AB7;font-weight:500}
+.tab:hover:not(.active){background:var(--color-background-secondary)}
+.pane{display:none}
+.pane.active{display:block;padding-bottom:1rem}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.metric{background:var(--color-background-secondary);border-radius:8px;padding:.65rem .9rem}
+.ml{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}
+.mv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.ms{font-size:10px;color:var(--color-text-tertiary);margin-top:1px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:.85rem 1rem;margin-bottom:10px}
+.ct{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.phase-table{width:100%;border-collapse:collapse;font-size:12px}
+.phase-table th{background:var(--color-background-secondary);font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.phase-table td{padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+.phase-table tr:last-child td{border-bottom:none}
+.phase-table tr:nth-child(even) td{background:var(--color-background-secondary)}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.b-pu{background:#EEEDFE;color:#3C3489}
+.b-te{background:#E1F5EE;color:#085041}
+.b-am{background:#FAEEDA;color:#633806}
+.b-bl{background:#E6F1FB;color:#0C447C}
+.b-re{background:#FCEBEB;color:#791F1F}
+.b-gr{background:#F1EFE8;color:#444441}
+.bar-bg{height:6px;background:var(--color-background-secondary);border-radius:3px;flex:1;min-width:60px}
+.bar-fill{height:6px;border-radius:3px}
+.insight{background:#EEEDFE;border-radius:8px;padding:8px 10px;font-size:12px;color:#3C3489;margin-top:8px;line-height:1.5}
+.row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.row:last-child{border-bottom:none}
+.rn{flex:1;font-weight:500;color:var(--color-text-primary);font-size:12px}
+.phase-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl{display:flex;gap:12px;position:relative;padding:0 0 0 0}
+.tl-line{position:absolute;left:13px;top:28px;bottom:0;width:1px;background:var(--color-border-secondary)}
+.tl-content{flex:1;padding:8px 0 12px}
+.tl-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.tl-body{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-top:3px}
+@media(prefers-color-scheme:dark){
+  .b-pu{background:#26215C;color:#CECBF6}
+  .b-te{background:#04342C;color:#9FE1CB}
+  .b-am{background:#412402;color:#FAC775}
+  .b-bl{background:#042C53;color:#B5D4F4}
+  .b-re{background:#501313;color:#F7C1C1}
+  .b-gr{background:#2C2C2A;color:#D3D1C7}
+  .insight{background:#26215C;color:#CECBF6}
+}
+</style>
+
+<div style="padding:1rem 0 0">
+<div class="tabs">
+  <button class="tab active" onclick="show('matrix')">Matrice SDLC</button>
+  <button class="tab" onclick="show('burn')">Burn par phase</button>
+  <button class="tab" onclick="show('modes')">Modes × phase</button>
+  <button class="tab" onclick="show('rules')">Rules & guardrails</button>
+</div>
+
+<!-- MATRICE -->
+<div id="pane-matrix" class="pane active">
+<div class="metrics">
+  <div class="metric"><div class="ml">Phases SDLC couvertes</div><div class="mv">9</div><div class="ms">sur 9 identifiées</div></div>
+  <div class="metric"><div class="ml">Coins phase haute conso</div><div class="mv">~38k</div><div class="ms">Coding + Modernisation</div></div>
+  <div class="metric"><div class="ml">Coins phase basse conso</div><div class="mv">~8k</div><div class="ms">Ops + Compliance</div></div>
+  <div class="metric"><div class="ml">Bob Shell (pipeline)</div><div class="mv">~3k</div><div class="ms">CI/CD non-interactif</div></div>
+</div>
+
+<div class="card">
+  <div class="ct"><i class="ti ti-sitemap" aria-hidden="true" style="font-size:15px;color:#534AB7"></i> Répartition coins & seats par phase SDLC</div>
+  <table class="phase-table">
+    <thead><tr>
+      <th style="width:180px">Phase SDLC</th>
+      <th style="width:55px;text-align:center">Seats</th>
+      <th style="width:80px;text-align:center">Pool coins</th>
+      <th style="width:80px;text-align:center">Moy c/seat</th>
+      <th style="width:90px">Mode Bob</th>
+      <th style="width:70px;text-align:center">Statut</th>
+      <th>Entités concernées</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Discovery / Planning</strong></td>
+        <td style="text-align:center">15</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">3 500</td>
+        <td style="text-align:center">233</td>
+        <td><span class="badge b-bl">Plan</span></td>
+        <td style="text-align:center"><span class="badge b-te">Natif</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">IT Central · Architectes</td>
+      </tr>
+      <tr>
+        <td><strong>Architecture / Design</strong></td>
+        <td style="text-align:center">20</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">4 500</td>
+        <td style="text-align:center">225</td>
+        <td><span class="badge b-bl">Ask · Plan</span></td>
+        <td style="text-align:center"><span class="badge b-te">Natif</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">IT Central · CIB · BP2S</td>
+      </tr>
+      <tr>
+        <td><strong>Coding — dev standard</strong></td>
+        <td style="text-align:center">50</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">18 000</td>
+        <td style="text-align:center">360</td>
+        <td><span class="badge b-pu">Code · Plan</span></td>
+        <td style="text-align:center"><span class="badge b-te">Natif</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">Retail · BCEF · Risk</td>
+      </tr>
+      <tr>
+        <td><strong>Modernisation legacy</strong></td>
+        <td style="text-align:center">20</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">20 000</td>
+        <td style="text-align:center">1 000</td>
+        <td><span class="badge b-pu">Orchestrator · Adv</span></td>
+        <td style="text-align:center"><span class="badge b-te">Natif ★</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">CIB · BP2S · BCEF</td>
+      </tr>
+      <tr>
+        <td><strong>Testing & QA</strong></td>
+        <td style="text-align:center">20</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">5 000</td>
+        <td style="text-align:center">250</td>
+        <td><span class="badge b-bl">Code · Advanced</span></td>
+        <td style="text-align:center"><span class="badge b-am">Partiel</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">Toutes entités</td>
+      </tr>
+      <tr>
+        <td><strong>Code Review / PR</strong></td>
+        <td style="text-align:center">40</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">4 000</td>
+        <td style="text-align:center">100</td>
+        <td><span class="badge b-bl">Ask · Code</span></td>
+        <td style="text-align:center"><span class="badge b-te">Natif</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">Toutes entités</td>
+      </tr>
+      <tr>
+        <td><strong>Sécurité / SAST</strong></td>
+        <td style="text-align:center">15</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">3 500</td>
+        <td style="text-align:center">233</td>
+        <td><span class="badge b-bl">Ask · Code</span></td>
+        <td style="text-align:center"><span class="badge b-am">Partiel</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">Risk · CIB · BCEF</td>
+      </tr>
+      <tr>
+        <td><strong>CI/CD (Bob Shell)</strong></td>
+        <td style="text-align:center">10</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">3 000</td>
+        <td style="text-align:center">300</td>
+        <td><span class="badge b-gr">Non-interactif</span></td>
+        <td style="text-align:center"><span class="badge b-am">Partiel</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">ITG · DevOps</td>
+      </tr>
+      <tr>
+        <td><strong>Docs / Compliance</strong></td>
+        <td style="text-align:center">10</td>
+        <td style="text-align:center;font-weight:500;color:#185FA5">1 500</td>
+        <td style="text-align:center">150</td>
+        <td><span class="badge b-bl">Ask · Plan</span></td>
+        <td style="text-align:center"><span class="badge b-re">Gap partiel</span></td>
+        <td style="font-size:11px;color:var(--color-text-secondary)">Risk · IT Central</td>
+      </tr>
+      <tr style="background:var(--color-background-secondary)">
+        <td style="color:var(--color-text-secondary);font-style:italic">Réserve DEM Lead</td>
+        <td style="text-align:center;color:var(--color-text-tertiary)">—</td>
+        <td style="text-align:center;font-weight:500;color:var(--color-text-secondary)">12 500</td>
+        <td colspan="4"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="insight">💡 La modernisation legacy (20 seats seulement) consomme 20 000 coins — soit 27 % du pool total — parce que chaque session Orchestrator sur du COBOL coûte 50–200 coins. C'est la phase à monitorer en priorité dans Bobalytics.</div>
+</div>
+
+<!-- BURN -->
+<div id="pane-burn" class="pane">
+<div class="g2">
+  <div class="card">
+    <div class="ct"><i class="ti ti-flame" aria-hidden="true" style="font-size:15px;color:#D85A30"></i> Burn rate estimé / phase / 90 jours</div>
+    <div class="row"><div class="rn">Modernisation legacy</div><div class="bar-bg"><div class="bar-fill" style="width:100%;background:#534AB7"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">222 c/j</span></div>
+    <div class="row"><div class="rn">Coding standard</div><div class="bar-bg"><div class="bar-fill" style="width:72%;background:#1D9E75"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">200 c/j</span></div>
+    <div class="row"><div class="rn">Testing & QA</div><div class="bar-bg"><div class="bar-fill" style="width:31%;background:#378ADD"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">56 c/j</span></div>
+    <div class="row"><div class="rn">Code Review / PR</div><div class="bar-bg"><div class="bar-fill" style="width:20%;background:#3B6D11"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">44 c/j</span></div>
+    <div class="row"><div class="rn">Architecture</div><div class="bar-bg"><div class="bar-fill" style="width:18%;background:#185FA5"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">50 c/j</span></div>
+    <div class="row"><div class="rn">Sécurité SAST</div><div class="bar-bg"><div class="bar-fill" style="width:14%;background:#D85A30"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">39 c/j</span></div>
+    <div class="row"><div class="rn">CI/CD Bob Shell</div><div class="bar-bg"><div class="bar-fill" style="width:12%;background:#EF9F27"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">33 c/j</span></div>
+    <div class="row"><div class="rn">Planning / Design</div><div class="bar-bg"><div class="bar-fill" style="width:9%;background:#888780"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">89 c/j</span></div>
+    <div class="row"><div class="rn">Docs / Compliance</div><div class="bar-bg"><div class="bar-fill" style="width:6%;background:#72243E"></div></div><span style="font-size:11px;font-weight:500;min-width:55px;text-align:right">17 c/j</span></div>
+  </div>
+  <div class="card">
+    <div class="ct"><i class="ti ti-clock" aria-hidden="true" style="font-size:15px;color:#534AB7"></i> Autonomie estimée par phase</div>
+    <div class="row"><div class="rn">Modernisation legacy</div><span style="font-size:12px;font-weight:500;color:#085041">90 j (plein)</span></div>
+    <div class="row"><div class="rn">Coding standard</div><span style="font-size:12px;font-weight:500;color:#085041">90 j (plein)</span></div>
+    <div class="row"><div class="rn">Testing & QA</div><span style="font-size:12px;font-weight:500;color:#085041">90 j</span></div>
+    <div class="row"><div class="rn">Code Review / PR</div><span style="font-size:12px;font-weight:500;color:#085041">90 j</span></div>
+    <div class="row"><div class="rn">Architecture</div><span style="font-size:12px;font-weight:500;color:#085041">90 j</span></div>
+    <div class="row"><div class="rn">Sécurité SAST</div><span style="font-size:12px;font-weight:500;color:#EF9F27">90 j (serré)</span></div>
+    <div class="row"><div class="rn">CI/CD Bob Shell</div><span style="font-size:12px;font-weight:500;color:#EF9F27">~90 j si 50 PRs/j</span></div>
+    <div class="row"><div class="rn">Planning / Design</div><span style="font-size:12px;font-weight:500;color:#085041">90 j</span></div>
+    <div class="row"><div class="rn">Docs / Compliance</div><span style="font-size:12px;font-weight:500;color:#D85A30">88 j → risque si DORA sprint</span></div>
+    <div class="insight">Alerte : si une entité lance un sprint dédié DORA/Bâle IV sur 2 semaines, les 1 500 coins Compliance sont brûlés en ~10 jours. Prévoir 2 000 coins de réserve fléchés sur cette phase.</div>
+  </div>
+</div>
+</div>
+
+<!-- MODES × PHASE -->
+<div id="pane-modes" class="pane">
+<div class="card">
+  <div class="ct"><i class="ti ti-adjustments" aria-hidden="true" style="font-size:15px;color:#534AB7"></i> Matrice modes recommandés × phase SDLC</div>
+  <table class="phase-table">
+    <thead><tr>
+      <th>Phase</th>
+      <th style="text-align:center">Ask</th>
+      <th style="text-align:center">Plan</th>
+      <th style="text-align:center">Code</th>
+      <th style="text-align:center">Advanced</th>
+      <th style="text-align:center">Orchestrator</th>
+      <th>Règle BNP</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><strong>Discovery / Planning</strong></td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Lecture seule, pas de modif code</td></tr>
+      <tr><td><strong>Architecture</strong></td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:#633806">~</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Advanced si analyse multi-repo</td></tr>
+      <tr><td><strong>Coding standard</strong></td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Orchestrator interdit sans approbation</td></tr>
+      <tr><td><strong>Modernisation legacy</strong></td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="font-size:11px;color:#791F1F">Human checkpoint obligatoire / 3 fichiers</td></tr>
+      <tr><td><strong>Testing & QA</strong></td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Bob génère, runner reste dans CI</td></tr>
+      <tr><td><strong>Code Review / PR</strong></td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Ask mode en Bob Shell CI = 2 coins/PR</td></tr>
+      <tr><td><strong>Sécurité / SAST</strong></td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:#085041">✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:#791F1F">Findings critiques → review humaine obligatoire</td></tr>
+      <tr><td><strong>CI/CD (Bob Shell)</strong></td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Non-interactif uniquement, pas d'écriture auto</td></tr>
+      <tr><td><strong>Docs / Compliance</strong></td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:#085041">✓✓</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="text-align:center;color:var(--color-text-tertiary)">—</td><td style="font-size:11px;color:var(--color-text-secondary)">Données synthétiques, pas de données réelles Bâle</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:8px;font-size:11px;color:var(--color-text-secondary)">✓✓ = mode recommandé · ✓ = mode autorisé · ~ = cas par cas · — = non recommandé pour cette phase</div>
+</div>
+</div>
+
+<!-- RULES & GUARDRAILS -->
+<div id="pane-rules" class="pane">
+<div class="card">
+  <div class="ct"><i class="ti ti-shield-check" aria-hidden="true" style="font-size:15px;color:#1D9E75"></i> Guardrails par phase — à configurer dans .bobrules</div>
+  <div class="row"><span class="badge b-re" style="flex-shrink:0">Modernisation</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">Human checkpoint toutes les 3 modifications de fichier. Auto-rollback interdit. Aucun merge automatique. Données synthétiques uniquement dans le contexte.</div></div>
+  <div class="row"><span class="badge b-pu" style="flex-shrink:0">Coding</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">Orchestrator bloqué par défaut (spending cap user). Code mode limité aux repos de l'entité déclarée. Pas d'accès aux repos d'autres entités sans approbation IT Central.</div></div>
+  <div class="row"><span class="badge b-bl" style="flex-shrink:0">CI/CD Shell</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">Bob Shell uniquement en mode --no-interactive. Pas d'écriture sur le repo en pipeline. Output = rapport uniquement (risk score, PR summary, SAST findings).</div></div>
+  <div class="row"><span class="badge b-am" style="flex-shrink:0">SAST / Sécu</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">Findings CRITICAL et HIGH → commentaire bloquant sur la PR. Fix suggéré par Bob mais appliqué uniquement après validation security engineer. Ne pas auto-closer les findings.</div></div>
+  <div class="row"><span class="badge b-re" style="flex-shrink:0">Compliance</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">Aucune donnée Bâle IV, DORA, ACPR réelle dans le contexte Bob. Templates uniquement avec placeholders. Tout output passe par le Risk Committee avant diffusion.</div></div>
+  <div class="row"><span class="badge b-gr" style="flex-shrink:0">Toutes phases</span><div style="flex:1;font-size:12px;padding-left:8px;color:var(--color-text-primary)">.bobignore configuré sur : credentials/, secrets/, *.env, data/production/**, scoring-models/**. Pas d'accès aux fichiers de configuration de production.</div></div>
+</div>
+<div class="card">
+  <div class="ct"><i class="ti ti-file-code" aria-hidden="true" style="font-size:15px;color:#534AB7"></i> Structure .bobrules globale recommandée</div>
+  <pre style="font-size:11px;color:var(--color-text-secondary);line-height:1.7;overflow:auto;background:var(--color-background-secondary);padding:10px;border-radius:8px"># .bobrules — BNP Paribas global guardrails
+# Chargé automatiquement par Bob dans tous les modes
+
+## Data residency
+- Never include real customer data, IBAN, account numbers in prompts
+- Never read files matching: credentials/**, *.env, data/prod/**
+- Scoring models are off-limits: scoring-models/**
+
+## Code safety  
+- Always request human approval before modifying more than 3 files
+- Never auto-commit or auto-merge generated code
+- Flag BigDecimal violations (float/double for monetary amounts)
+
+## Mode restrictions
+- Orchestrator requires explicit user confirmation per session
+- CI pipeline (Bob Shell): --no-interactive flag mandatory
+- SAST findings CRITICAL/HIGH block PR merge
+
+## Audit
+- All Bob sessions must be traceable to a JIRA ticket
+- Generated code must carry @bob-generated comment header</pre>
+</div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pane-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
